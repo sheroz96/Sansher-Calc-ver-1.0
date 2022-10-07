@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+  }
+  
+  body {
+    height: 100%;
+    background-color: burlywood;
+    background-size: cover;
+    background-position: center center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .brand{
+    background-color: rgb(206, 160, 101);
+    font-family: Helvetica;
+    font-size: large;
+    color:#000000;
+    margin-bottom: 770px;
+    margin-top: 180px;
+    margin-left: 300px;
+    margin-right: 300px;
+    padding: 20px;
+    border-radius: 2em;
+    display: flex;
+    position:absolute;
+
+  }
+  .calcContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    border-radius: 10px;
+    backdrop-filter: blur(1em);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .output-container {
+    display: flex;
+    width: 100%;
+    color: #000000;
+  }
+  
+  .display-container {
+    display: flex;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    margin-bottom: 1em;
+    color: #000000;
+    box-shadow: inset -1px -1px 3px rgba(255, 255, 255, 0.7),
+      inset 1px 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .current-calc,
+  .operator-type {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.4);
+    height: 1.4em;
+    padding: 0 0.3rem;
+    display: block;
+  }
+  
+  .current-calc {
+    width: 100%;
+    text-align: right;
+  }
+  
+  .display {
+    width: 100%;
+    text-align: right;
+    color: #000000;
+    padding: 0 1rem 0.5rem 0;
+  }
+  
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+      "add minus multiply divide"
+      "sinus cosinus tangent logarithm"
+      "seven eight nine equal"
+      "four five six equal"
+      "one two three equal"
+      "decimal zero clear equal";
+    
+  }
+  
+  button {
+    font-size: 1rem;
+    padding: 1em;
+    background: rgba(255, 255, 255, 0.3);
+    color: #000000;
+    border: none;
+    cursor: pointer;
+    box-shadow: -1px -1px 3px rgba(0, 0, 0, 0.8),
+      1px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  button:hover,
+  button:focus {
+    background: rgba(255, 255, 255, 0.5);
+  }
+  
+  .add {
+    grid-area: add;
+    background-color: #f1a33c;
+  }
+  .minus {
+    grid-area: minus;
+    background-color: #f1a33c;
+  }
+  .multiply {
+    grid-area: multiply;
+    background-color: #f1a33c;
+  }
+  .divide {
+    grid-area: divide;
+    background-color: #f1a33c;
+  }
+  .sinus {
+    grid-area: sinus;
+    background-color: #f1a33c;
+  }
+  .cosinus {
+    grid-area: cosinus;
+    background-color: #f1a33c;
+  }
+  .tangent {
+    grid-area: tangent;
+    background-color: #f1a33c;
+  }
+  .logarithm {
+    grid-area: logarithm;
+    background-color: #f1a33c;
+  }
+  .equal {
+    grid-area: equal;
+    background-color: #f1a33c;
+  }
+  .one {
+    grid-area: one;
+  }
+  .two {
+    grid-area: two;
+  }
+  .three {
+    grid-area: three;
+  }
+  .four {
+    grid-area: four;
+  }
+  .five {
+    grid-area: five;
+  }
+  .six {
+    grid-area: six;
+  }
+  .seven {
+    grid-area: seven;
+  }
+  .eight {
+    grid-area: eight;
+  }
+  .nine {
+    grid-area: nine;
+  }
+  .zero {
+    grid-area: zero;
+  }
+  .decimal {
+    grid-area: decimal;
+  }
+  .clear {
+    grid-area: clear;
+    background-color: #eee5e5;
+  }
