@@ -8,6 +8,10 @@ const decimalBtn = document.querySelector(".decimal");
 const clearBtn = document.querySelector(".clear");
 const equalBtn = document.querySelector(".equal");
 const minusBtn = document.querySelector(".minus");
+const sinusBtn = document.querySelector(".sinus");
+const cosinusBtn = document.querySelector(".cosinus");
+const tangentBtn = document.querySelector(".tangent");
+const logarithmBtn = document.querySelector(".logarithm");
 
 let prevNum = null;
 let firstNum = null;
@@ -58,7 +62,6 @@ function handleFirstNumber(button) {
 		displayUpdate();
 	}
 }
-
 function handleNewFirstNumber(button) {
 	currentNum = button.innerText;
 	calcDisplay = currentNum;
@@ -96,7 +99,20 @@ function operatorInput(button) {
 		handleNegativeInt();
 	} else if (currentNum === null) {
 		return;
-	} else {
+	}
+	else if (button === sinusBtn){
+		sin();
+	}
+	else if (button === cosinusBtn){
+		cos();
+	}
+	else if (button === tangentBtn){
+		tan();
+	}
+	else if (button === logarithmBtn){
+		log();
+	}
+	 else {
 		handleOperator(button);
 	}
 }
@@ -186,21 +202,24 @@ function calculate(num) {
 		case "÷":
 			calc = num / currentNum;
 			break;
-		case "sinus":
-			calc = Math.sin(num);
-			break;
-		case "cos":
-			calc = Math.tan(num);
-			break;
-		case "tan":
-			calc = Math.cos(num);
-			break;
-		case "log":
-			calc = Math.log(num);
-			break;
 	}
 }
-
+function sin() {
+	calcDisplay = Math.sin(calcDisplay);
+	displayUpdate();
+  }
+function cos() {
+	calcDisplay = Math.cos(calcDisplay);
+	displayUpdate();
+  }
+function tan() {
+	calcDisplay = Math.tan(calcDisplay);
+	displayUpdate();
+  }
+function log() {
+	calcDisplay = Math.log(calcDisplay);
+	displayUpdate();
+  }
 function handleClear() {
 	prevNum = null;
 	firstNum = null;
@@ -222,7 +241,6 @@ function numberRounder(number) {
 		return parseFloat(number);
 	}
 }
-
 function displayUpdate() {
 	display.innerText = calcDisplay;
 	opType.innerText = operator;
