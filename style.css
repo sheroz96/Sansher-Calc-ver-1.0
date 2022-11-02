@@ -20,6 +20,7 @@
     display:flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
   }
   .brand{
     background-color: rgb(206, 160, 101);
@@ -92,7 +93,7 @@
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     grid-template-areas:
       "add minus multiply divide"
-      "sinus cosinus tangent logarithm"
+      "sinus cosinus radius logarithm"
       "seven eight nine equal"
       "four five six equal"
       "one two three equal"
@@ -139,8 +140,8 @@
     grid-area: cosinus;
     background-color: #f1a33c;
   }
-  .tangent {
-    grid-area: tangent;
+  .radius {
+    grid-area: radius;
     background-color: #f1a33c;
   }
   .logarithm {

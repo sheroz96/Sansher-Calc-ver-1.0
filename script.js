@@ -10,18 +10,21 @@ const equalBtn = document.querySelector(".equal");
 const minusBtn = document.querySelector(".minus");
 const sinusBtn = document.querySelector(".sinus");
 const cosinusBtn = document.querySelector(".cosinus");
-const tangentBtn = document.querySelector(".tangent");
+const radiusBtn = document.querySelector(".radius");
 const logarithmBtn = document.querySelector(".logarithm");
                        
 
-let prevNum = null;
-let firstNum = null;
-let currentNum = null;
-let operator = null;
-let calcType = null;
-let calc = null;
-let calcOutput = null;
-let calcDisplay = "0";
+const calcState = {
+	prevNum: null,
+	firstNum: null,
+	currentNum:null,
+	operator:null,
+	calcType:null,
+	calc:null,
+	calcOutput:null,
+	calcDisplay:"0",
+}
+
 
 // Button Event Listener
 for (let button of numberBtns)
@@ -35,12 +38,12 @@ for (let button of operatorBtns)
 
 // Numbers Input
 function numberInput(button) {
-	if (calcDisplay.length > 9) {
+	if (calcState.calcDisplay.length > 9) {
 		return;
-	} else if (operator === "=") {
+	} else if (calcState.operator === "=") {
 		handleClear();
 		handleNewFirstNumber(button);
-	} else if (calcDisplay === "0") {
+	} else if (calcState.calcDisplay === "0") {
 		handleFirstNumber(button);
 	} 
 	else {
@@ -50,41 +53,41 @@ function numberInput(button) {
 
 // Number Handlers
 function handleFirstNumber(button) {
-	prevNum = null;
+	calcState.prevNum = null;
 	if (button === decimalBtn) {
 		handleFirstDecimal(button);
-	} else if (prevNum === null) {
-		currentNum = button.innerText;
-		calcDisplay = currentNum;
+	} else if (calcState.prevNum === null) {
+		calcState.currentNum = button.innerText;
+		calcState.calcDisplay = calcState.currentNum;
 		displayUpdate();
 	} else {
-		currentNum = prevNum + button.innerText;
-		calcDisplay = currentNum;
+		calcState.currentNum = calcState.prevNum + button.innerText;
+		calcState.calcDisplay = calcState.currentNum;
 		displayUpdate();
 	}
 }
 function handleNewFirstNumber(button) {
-	currentNum = button.innerText;
-	calcDisplay = currentNum;
+	calcState.currentNum = button.innerText;
+	calcState.calcDisplay = currentNum;
 	displayUpdate();
 }
 
 function handleSubsequentNumber(button) {
-	if (button === decimalBtn && calcDisplay.includes(".")) {
+	if (button === decimalBtn && calcState.calcDisplay.includes(".")) {
 		return;
 	} else {
-		prevNum = calcDisplay;
-		currentNum = prevNum + button.innerText;
-		calcDisplay = currentNum;
+		calcState.prevNum = calcState.calcDisplay;
+		calcState.currentNum = calcState.prevNum + button.innerText;
+		calcState.calcDisplay = calcState.currentNum;
 	}
 	displayUpdate();
 }
 
 function handleFirstDecimal(button) {
-	if (calcDisplay.includes(".")) {
+	if (calcState.calcDisplay.includes(".")) {
 		return;
 	} else {
-		calcDisplay = "0" + button.innerText;
+		calcState.calcDisplay = "0" + button.innerText;
 	}
 	displayUpdate();
 }
@@ -95,10 +98,10 @@ function operatorInput(button) {
 		handleClear(button);
 	} else if (
 		button === minusBtn &&
-		(currentNum === null || calcDisplay === "0")
+		(calcState.currentNum === null || calcState.calcDisplay === "0")
 	) {
 		handleNegativeInt();
-	} else if (currentNum === null) {
+	} else if (calcState.currentNum === null) {
 		return;
 	}
 	else if (button === sinusBtn){
@@ -107,8 +110,8 @@ function operatorInput(button) {
 	else if (button === cosinusBtn){
 		cos();
 	}
-	else if (button === tangentBtn){
-		tan();
+	else if (button === radiusBtn){
+		pi();
 	}
 	else if (button === logarithmBtn){
 		log();
@@ -120,15 +123,15 @@ function operatorInput(button) {
 
 // Operator Handlers
 function handleNegativeInt() {
-	calcDisplay = "-";
-	prevNum = "-";
+	calcState.calcDisplay = "-";
+	calcState.prevNum = "-";
 	displayUpdate();
 }
 
 function handleOperator(button) {
-	if (calcType === null && button === equalBtn) {
+	if (calcState.calcType === null && button === equalBtn) {
 		return;
-	} else if (calcType === null) {
+	} else if (calcState.calcType === null) {
 		firstOperator(button);
 	} else {
 		handleCalc(button);
@@ -137,22 +140,22 @@ function handleOperator(button) {
 }
 
 function firstOperator(button) {
-	calcType = button.innerText;
-	operator = calcType;
-	firstNum = currentNum;
-	prevNum = null;
-	calcOutput = firstNum;
-	calcDisplay = "0";
+	calcState.calcType = button.innerText;
+	calcState.operator = calcState.calcType;
+	calcState.firstNum = calcState.currentNum;
+	calcState.prevNum = null;
+	calcState.calcOutput = calcState.firstNum;
+	calcState.calcDisplay = "0";
 }
 
 function handleCalc(button) {
-	firstNum = parseFloat(firstNum);
-	currentNum = parseFloat(currentNum);
-	operator = button.innerText;
-	prevNum = null;
-	if (calc === null && operator === "=") {
+	calcState.firstNum = parseFloat(calcState.firstNum);
+	calcState.currentNum = parseFloat(calcState.currentNum);
+	calcState.operator = button.innerText;
+	calcState.prevNum = null;
+	if (calcState.calc === null && calcState.operator === "=") {
 		handleSingleOperator();
-	} else if (calc != null && operator === "=") {
+	} else if (calcState.calc != null && calcState.operator === "=") {
 		handleCompoundEquals();
 	} else {
 		handleMultipleOperators(button);
@@ -160,76 +163,76 @@ function handleCalc(button) {
 }
 
 function handleSingleOperator() {
-	calculate(firstNum);
-	calcDisplay = calc;
-	calcOutput = `${firstNum} ${calcType} ${currentNum}`;
+	calculate(calcState.firstNum);
+	calcState.calcDisplay = calcState.calc;
+	calcState.calcOutput = `${calcState.firstNum} ${calcState.calcType} ${calcState.currentNum}`;
 	opType.innerText = "";
 	displayUpdate();
 }
 
 function handleCompoundEquals() {
-	calcOutput = `${calc} ${calcType} ${currentNum}`;
-	calculate(calc);
-	calcDisplay = numberRounder(calc.toString());
+	calcState.calcOutput = `${calcState.calc} ${calcState.calcType} ${calcState.currentNum}`;
+	calculate(calcState.calc);
+	calcState.calcDisplay = numberRounder(calcState.calc.toString());
 	displayUpdate();
 }
 
 function handleMultipleOperators(button) {
 	if (calc != null && firstNum != calc) {
-		firstNum = calc;
-		calcOutput = `${calc}`;
-		calcType = button.innerText;
-		calcDisplay = "0";
+		calcState.firstNum = calcState.calc;
+		calcState.calcOutput = `${calcState.calc}`;
+		calcState.calcType = button.innerText;
+		calcState.calcDisplay = "0";
 	} else {
 		calculate(firstNum);
-		calcOutput = `${calc}`;
-		calcType = button.innerText;
-		calcDisplay = "0";
-		firstNum = calc;
+		calcState.calcOutput = `${calc}`;
+		calcState.calcType = button.innerText;
+		calcState.calcDisplay = "0";
+		calcState.firstNum = calcState.calc;
 	}
 }
 
 function calculate(num) {
-	switch (calcType) {
+	switch (calcState.calcType) {
 		case "+":
-			calc = num + currentNum;
+			calcState.calc = num + calcState.currentNum;
 			break;
 		case "-":
-			calc = num - currentNum;
+			calcState.calc = num - calcState.currentNum;
 			break;
 		case "x":
-			calc = num * currentNum;
+			calcState.calc = num * calcState.currentNum;
 			break;
 		case "÷":
-			calc = num / currentNum;
+			calcState.calc = num / calcState.currentNum;
 			break;
 	}
 }
 function sin() {
-	calcDisplay = Math.sin(calcDisplay);
+	calcState.calcDisplay = Math.sin(calcState.calcDisplay);
 	displayUpdate();
   }
 function cos() {
-	calcDisplay = Math.cos(calcDisplay);
+	calcState.calcDisplay = Math.cos(calcState.calcDisplay);
 	displayUpdate();
   }
-function tan() {
-	calcDisplay = Math.tan(calcDisplay);
+function pi() {
+	calcState.calcDisplay = Math.PI * calcState.calcDisplay;
 	displayUpdate();
   }
 function log() {
-	calcDisplay = Math.log(calcDisplay);
+	calcState.calcDisplay = Math.log(calcState.calcDisplay);
 	displayUpdate();
   }
 function handleClear() {
-	prevNum = null;
-	firstNum = null;
-	currentNum = null;
-	calcType = null;
-	operator = null;
-	calc = null;
-	calcOutput = null;
-	calcDisplay = "0";
+	calcState.prevNum = null;
+	calcState.firstNum = null;
+	calcState.currentNum = null;
+	calcState.calcType = null;
+	calcState.operator = null;
+	calcState.calc = null;
+	calcState.calcOutput = null;
+	calcState.calcDisplay = "0";
 	displayUpdate();
 }
 
@@ -243,13 +246,13 @@ function numberRounder(number) {
 	}
 }
 function displayUpdate() {
-	display.innerText = calcDisplay;
-	opType.innerText = operator;
-	currentCalc.innerText = calcOutput;
+	display.innerText = calcState.calcDisplay;
+	opType.innerText = calcState.operator;
+	currentCalc.innerText = calcState.calcOutput;
 }
 
 function calcReset() {
-	prevNum = null;
-	firstNum = null;
-	calcType = null;
+	calcState.prevNum = null;
+	calcState.firstNum = null;
+	calcState.calcType = null;
 }
