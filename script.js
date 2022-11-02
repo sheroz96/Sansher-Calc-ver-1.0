@@ -12,7 +12,7 @@ const sinusBtn = document.querySelector(".sinus");
 const cosinusBtn = document.querySelector(".cosinus");
 const tangentBtn = document.querySelector(".tangent");
 const logarithmBtn = document.querySelector(".logarithm");
-
+                       
 
 let prevNum = null;
 let firstNum = null;
